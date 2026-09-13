@@ -1,0 +1,22 @@
+{
+  "name": "@dumbways/mock-provider",
+  "version": "0.1.0",
+  "private": true,
+  "description": "In-process mock coach provider. Proves the request/response architecture without any external model.",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "test": "node --test test/*.test.js",
+    "dev": "node dist/standalone.js"
+  },
+  "dependencies": {
+    "@dumbways/protocol": "*",
+    "@dumbways/relay": "*"
+  },
+  "bin": {
+    "dumbways-mock-provider": "dist/standalone.js"
+  }
+}

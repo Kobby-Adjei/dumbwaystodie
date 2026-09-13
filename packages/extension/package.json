@@ -1,0 +1,378 @@
+{
+  "name": "dumbways-to-die",
+  "displayName": "Dumb Ways to Die",
+  "description": "Use the AI chat you already pay for — ChatGPT, Claude, Gemini — with live context from your editor. Local-first: nothing leaves your machine except what you approve.",
+  "version": "0.1.15",
+  "private": true,
+  "license": "MIT",
+  "publisher": "kobby",
+  "engines": {
+    "vscode": "^1.85.0",
+    "node": ">=20"
+  },
+  "categories": [
+    "Programming Languages",
+    "Education",
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "dumbways",
+          "title": "Dumb Ways to Die",
+          "icon": "media/dumbways.svg"
+        }
+      ]
+    },
+    "views": {
+      "dumbways": [
+        {
+          "type": "webview",
+          "id": "dumbways.coach",
+          "name": "Dumb Ways to Die"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "dumbways.openCoach",
+        "title": "Open Panel",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.newSession",
+        "title": "New Session",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.sendMessage",
+        "title": "Send Message",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.showCurrentContext",
+        "title": "Show Current Context",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.stopRelay",
+        "title": "Stop Relay",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.forgetApprovals",
+        "title": "Forget Approvals",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.startStack",
+        "title": "Start Relay + Provider",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.stopStack",
+        "title": "Stop Relay + Provider",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.attachFile",
+        "title": "Attach File",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.cleanCache",
+        "title": "Clean Local Cache",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.cancelRequest",
+        "title": "Cancel Current Request",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.showDiagnostics",
+        "title": "Show Diagnostics",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.copyPrimer",
+        "title": "Copy Chat Primer",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.pasteReply",
+        "title": "Bring Reply Back",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.copyAgain",
+        "title": "Copy Last Payload Again",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.showWhatGetsSent",
+        "title": "Show What Gets Sent",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.copyRelayDetails",
+        "title": "Copy Relay Details (for browser)",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.setupBrowser",
+        "title": "Set Up Browser Extension",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.useClipboard",
+        "title": "Use Clipboard Mode",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.pickModel",
+        "title": "Pick Chat Model",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.chatHome",
+        "title": "Where Coding Chats Live",
+        "category": "Dumb Ways to Die"
+      },
+      {
+        "command": "dumbways.chatModel",
+        "title": "Set Model Inside Chat",
+        "category": "Dumb Ways to Die"
+      }
+    ],
+    "configuration": {
+      "title": "Dumb Ways to Die",
+      "properties": {
+        "dumbways.context.maxCharacters": {
+          "type": "number",
+          "default": 120000,
+          "minimum": 1000,
+          "markdownDescription": "Approximate maximum characters of context attached to a single request. Anything dropped is reported in the request instead of being silently removed."
+        },
+        "dumbways.context.maxFileCharacters": {
+          "type": "number",
+          "default": 40000,
+          "minimum": 500,
+          "markdownDescription": "Maximum characters included from a single file or buffer. Truncation is always marked."
+        },
+        "dumbways.permissions.mode": {
+          "type": "string",
+          "enum": [
+            "strict-coach",
+            "guided",
+            "normal-agent"
+          ],
+          "default": "strict-coach",
+          "enumDescriptions": [
+            "Read freely, ask before running anything, never write. The default.",
+            "Read freely, ask before running or writing.",
+            "Read freely, ask before running, writing, or anything destructive."
+          ],
+          "markdownDescription": "How much the model is allowed to do without asking. Read tools are always allowed; everything else is gated."
+        },
+        "dumbways.provider.mode": {
+          "type": "string",
+          "enum": [
+            "in-process",
+            "clipboard",
+            "relay"
+          ],
+          "default": "in-process",
+          "enumDescriptions": [
+            "Run the mock provider inside the extension. Works with no setup.",
+            "Talk to any chat you can paste into — ChatGPT, Claude, a local model. No browser extension needed.",
+            "Talk to a provider process over the local relay. Requires a provider process."
+          ],
+          "markdownDescription": "Where the coach lives. `clipboard` copies each message for you to paste into a chat you already have open, and takes the reply back."
+        },
+        "dumbways.relay.port": {
+          "type": "number",
+          "default": 43123,
+          "markdownDescription": "Port for the local relay. Bound to 127.0.0.1 only."
+        },
+        "dumbways.workspace.ignoreDirectories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "node_modules",
+            ".git",
+            "dist",
+            "build",
+            "out",
+            "target",
+            ".next",
+            ".turbo",
+            "coverage",
+            ".venv",
+            "__pycache__"
+          ],
+          "markdownDescription": "Directory names skipped by `workspace.search`, `workspace.project_tree` and `workspace.list_directory`. Matched by name at any depth."
+        },
+        "dumbways.shell.envAllowlist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "PATH",
+            "HOME",
+            "SHELL",
+            "USER",
+            "LOGNAME",
+            "LANG",
+            "LC_ALL",
+            "LC_CTYPE",
+            "TERM",
+            "TMPDIR",
+            "TZ",
+            "SYSTEMROOT",
+            "SYSTEMDRIVE",
+            "COMSPEC",
+            "PATHEXT",
+            "USERPROFILE",
+            "APPDATA",
+            "LOCALAPPDATA"
+          ],
+          "markdownDescription": "Environment variables a command started by `shell.run` may see. Everything else is dropped, so tokens sitting in the shell that launched your editor are not handed to approved commands. Names containing TOKEN/SECRET/PASSWORD/KEY are dropped even if listed here."
+        },
+        "dumbways.media.maxSizeMb": {
+          "type": "number",
+          "default": 20,
+          "minimum": 1,
+          "markdownDescription": "Largest attachment accepted, in megabytes (spec §10)."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "dumbways.openCoach",
+        "key": "cmd+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "dumbways.cancelRequest",
+        "key": "escape",
+        "when": "view.dumbways.coach.visible && dumbways.busy"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "dumbways.openCoach"
+        },
+        {
+          "command": "dumbways.newSession"
+        },
+        {
+          "command": "dumbways.sendMessage",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.showCurrentContext",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.stopRelay",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.forgetApprovals",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.startStack",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.stopStack",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.attachFile",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.cleanCache",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.cancelRequest",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.showDiagnostics"
+        },
+        {
+          "command": "dumbways.copyPrimer",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.pasteReply",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.copyAgain",
+          "when": "false"
+        },
+        {
+          "command": "dumbways.showWhatGetsSent"
+        },
+        {
+          "command": "dumbways.copyRelayDetails"
+        },
+        {
+          "command": "dumbways.setupBrowser"
+        },
+        {
+          "command": "dumbways.useClipboard"
+        },
+        {
+          "command": "dumbways.pickModel"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node build.mjs",
+    "watch": "tsc -p tsconfig.json --watch",
+    "test": "node --test test/*.test.js",
+    "package": "npm run build && vsce package --no-dependencies --out dumbways-to-die.vsix"
+  },
+  "dependencies": {
+    "@dumbways/mock-provider": "*",
+    "@dumbways/protocol": "*",
+    "@dumbways/relay": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.24.0",
+    "@vscode/vsce": "^3.2.0"
+  },
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kobby/dumbways-to-die"
+  },
+  "keywords": [
+    "chatgpt",
+    "claude",
+    "gemini",
+    "ai",
+    "chat",
+    "bridge",
+    "local-first",
+    "mcp",
+    "assistant"
+  ]
+}

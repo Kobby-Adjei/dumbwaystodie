@@ -1,0 +1,14 @@
+{
+  "name": "@dumbways/mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@dumbways/protocol": "*",
+    "@dumbways/relay": "*"
+  }
+}

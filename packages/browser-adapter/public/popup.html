@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>Dumb Ways to Die</title>
+</head>
+<body>
+  <h1>Dumb Ways to Die</h1>
+
+  <section id="setup">
+    <p class="hint">
+      This add-on finds your editor by itself. In the editor, press
+      <strong>Connect a browser chat</strong> — then come back here.
+    </p>
+    <button id="find">Find my editor</button>
+
+    <details>
+      <summary class="hint">It still cannot find it</summary>
+      <p class="hint small">
+        Run <strong>Copy Relay Details</strong> from the editor's command
+        palette and paste the line here.
+      </p>
+      <textarea id="credentials" rows="3" placeholder='{"host":"127.0.0.1","port":43123,"token":"..."}'></textarea>
+      <button id="save" class="secondary">Connect with that line</button>
+    </details>
+  </section>
+
+  <section id="status">
+    <div class="row"><span>Relay</span><span id="relay-state">—</span></div>
+    <div class="row"><span>Chat</span><span id="pair-state">not paired</span></div>
+    <p id="site" class="hint"></p>
+    <p id="detail" class="hint"></p>
+  </section>
+
+  <button id="pair">Pair this chat</button>
+  <button id="allow-site" class="secondary" hidden>Use this chat anyway</button>
+  <button id="unpair" class="secondary">Unpair</button>
+
+  <p class="hint small">
+    Only the tab you pair is read. Nothing else is touched.
+  </p>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.vsix
+
+# Local bridge state (sessions, media, logs, cache).
+.coach/
+
+.DS_Store
+
+# tsc output alongside the esbuild bundles in dist/.
+out/
+
+# Packed add-on, rebuilt by `npm run build`.
+dumbways-chrome.zip

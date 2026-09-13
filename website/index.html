@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Dumb Ways to Die puts the chat you already pay for to work."
+    />
+    <meta name="theme-color" content="#181818" />
+    <title>Dumb Ways to Die — How it works</title>
+    <link rel="icon" href="assets/dumbways.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="motion.js" defer></script>
+  </head>
+  <body>
+    <div class="texture" aria-hidden="true"></div>
+
+    <header>
+      <img src="assets/dumbways.svg" alt="" />
+      <span>Dumb Ways to Die</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="why-title">
+        <h1 id="why-title">Ran out?</h1>
+        <p>Claude Code ran out? Codex did too? Use your chat on the web. We’ll help you.</p>
+        <p class="distinction">Your coding agent and web chat use different models.</p>
+      </section>
+
+      <section class="flow-diagram" aria-labelledby="flow-title">
+        <h2 class="sr-only" id="flow-title">How information travels</h2>
+
+        <svg class="routes" aria-hidden="true">
+          <path class="route route-source" data-source-route></path>
+          <g data-model-routes></g>
+          <circle class="packet" r="4" data-packet></circle>
+        </svg>
+
+        <div class="source-node flow-node" data-source-node>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <path d="m10 8-6 6 6 6M18 8l6 6-6 6M16.5 5 11.5 23"></path>
+          </svg>
+          <strong>Your coding agent</strong>
+          <small>editor context</small>
+        </div>
+
+        <div class="hub-node flow-node" data-hub-node>
+          <span class="hub-mark"><img src="assets/dumbways.svg" alt="" /></span>
+          <strong>DWTD</strong>
+          <small>local bridge</small>
+        </div>
+
+        <p class="model-label">Your web chat models</p>
+        <div class="model-grid" role="list" aria-label="Your web chat models">
+          <div class="model" role="listitem" data-model="ChatGPT">
+            <img src="assets/providers/chatgpt.svg" alt="" /><span>ChatGPT</span>
+          </div>
+          <div class="model" role="listitem" data-model="Claude">
+            <img src="assets/providers/claude.svg" alt="" /><span>Claude</span>
+          </div>
+          <div class="model" role="listitem" data-model="Gemini">
+            <img src="assets/providers/gemini.svg" alt="" /><span>Gemini</span>
+          </div>
+          <div class="model" role="listitem" data-model="Copilot">
+            <img src="assets/providers/copilot.ico" alt="" /><span>Copilot</span>
+          </div>
+          <div class="model" role="listitem" data-model="DeepSeek">
+            <img src="assets/providers/deepseek.svg" alt="" /><span>DeepSeek</span>
+          </div>
+          <div class="model" role="listitem" data-model="Le Chat">
+            <img src="assets/providers/mistral.svg" alt="" /><span>Le Chat</span>
+          </div>
+          <div class="model" role="listitem" data-model="Z.ai">
+            <img src="assets/providers/zai.svg" alt="" /><span>Z.ai</span>
+          </div>
+          <div class="model" role="listitem" data-model="Perplexity">
+            <img src="assets/providers/perplexity.ico" alt="" /><span>Perplexity</span>
+          </div>
+          <div class="model" role="listitem" data-model="Grok">
+            <img src="assets/providers/grok.ico" alt="" /><span>Grok</span>
+          </div>
+        </div>
+
+        <p class="flow-status" aria-live="polite">
+          <span data-flow-kind>context</span>
+          <span data-flow-copy>Your coding agent → DWTD → ChatGPT</span>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
